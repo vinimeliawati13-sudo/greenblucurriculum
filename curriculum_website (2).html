@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduCurriculum | Greening & Blue</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --g1: #3d7a6a; --g2: #6aab94; --g3: #9dcfbc; --g4: #cceadf; --g5: #edf8f3;
+  --b1: #3a6e9e; --b2: #6097c4; --b3: #96bee0; --b4: #c8dff2; --b5: #eaf4fc;
+  --cream: #faf8f3; --white: #ffffff;
+  --ink: #1e2d26; --mid: #4a5e58; --soft: #8a9e98;
+  --gold: #d4a96a; --blush: #e8c4b8; --lavender: #b8b0d8;
+  --shadow-g: rgba(61,122,106,0.15); --shadow-b: rgba(58,110,158,0.15);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--cream)}
+::-webkit-scrollbar-thumb{background:var(--g3);border-radius:3px}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem 3.5rem;
+  background:rgba(250,248,243,0.88);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(0,0,0,0.04);
+  transition:box-shadow .3s;
+}
+nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.07)}
+.nav-logo{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:900;color:var(--g1);letter-spacing:-.03em}
+.nav-logo span{color:var(--b1)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{text-decoration:none;color:var(--mid);font-size:.88rem;font-weight:500;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1.5px;background:var(--g2);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.nav-links a:hover{color:var(--g1)}
+.nav-links a:hover::after{transform:scaleX(1)}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative}
+.hero-half{position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:7rem 4rem 5rem;overflow:hidden;min-height:100vh}
+.hero-half .bg-img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 8s ease}
+.hero-half:hover .bg-img{transform:scale(1.04)}
+.hero-half .overlay{position:absolute;inset:0}
+.hero-left .overlay{background:linear-gradient(to top, rgba(30,60,44,.92) 0%, rgba(30,60,44,.55) 50%, rgba(30,60,44,.2) 100%)}
+.hero-right .overlay{background:linear-gradient(to top, rgba(20,45,80,.92) 0%, rgba(20,45,80,.55) 50%, rgba(20,45,80,.2) 100%)}
+.hero-content{position:relative;z-index:2}
+.hero-tag{display:inline-block;padding:.3rem .85rem;border-radius:2rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:1.2rem;backdrop-filter:blur(8px)}
+.tag-g{background:rgba(106,171,148,.3);border:1px solid rgba(106,171,148,.5);color:#b8edd8}
+.tag-b{background:rgba(96,151,196,.3);border:1px solid rgba(96,151,196,.5);color:#b0d4f0}
+.hero-title{font-family:'Fraunces',serif;font-size:clamp(2.8rem,4.5vw,4.8rem);font-weight:900;line-height:1.02;letter-spacing:-.04em;color:#fff;margin-bottom:1rem}
+.hero-title em{font-style:italic;opacity:.85}
+.hero-desc{color:rgba(255,255,255,.72);font-size:.97rem;line-height:1.75;max-width:360px;margin-bottom:2rem}
+.hero-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.7rem;border-radius:3rem;font-weight:600;font-size:.88rem;text-decoration:none;transition:all .25s;border:1.5px solid rgba(255,255,255,.4);color:#fff;backdrop-filter:blur(8px);background:rgba(255,255,255,.12);width:fit-content}
+.hero-btn:hover{background:rgba(255,255,255,.22);transform:translateY(-2px)}
+.hero-divider{position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(255,255,255,.2);z-index:10}
+.hero-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:20;background:var(--cream);width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,0,0,.2);border:3px solid rgba(255,255,255,.8)}
+.hero-center svg{width:28px;height:28px}
+
+/* ── SECTION WRAPPERS ── */
+.section-header{text-align:center;padding:5.5rem 2rem 3rem}
+.s-tag{display:inline-block;padding:.28rem .9rem;border-radius:2rem;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.9rem}
+.section-header h2{font-family:'Fraunces',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:900;letter-spacing:-.03em;line-height:1.1}
+.section-header p{color:var(--mid);max-width:560px;margin:1rem auto 0;line-height:1.75;font-size:.97rem}
+
+/* ── INTRO BAND ── */
+.intro-band{background:#fff;padding:3rem 5rem;display:flex;gap:3.5rem;align-items:center;border-bottom:1px solid rgba(0,0,0,.04)}
+.intro-text{color:var(--mid);line-height:1.8;font-size:1rem;max-width:660px}
+.intro-text strong{color:var(--g1)}
+.intro-stats{display:flex;gap:2.5rem;flex-shrink:0}
+.i-stat .n{font-family:'Fraunces',serif;font-size:2.8rem;font-weight:900;line-height:1;color:var(--g1)}
+.i-stat .l{font-size:.73rem;color:var(--soft);margin-top:.2rem;text-transform:uppercase;letter-spacing:.06em}
+
+/* ── GREENING ── */
+#greening{background:var(--g5);padding:0 5rem 7rem}
+
+/* ABOUT CARD */
+.about-card{display:grid;grid-template-columns:1fr 1fr;border-radius:2rem;overflow:hidden;box-shadow:0 8px 48px var(--shadow-g);margin-bottom:4rem;background:#fff}
+.about-text{padding:3.5rem}
+.about-text h3{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:900;color:var(--g1);margin-bottom:1rem;line-height:1.2}
+.about-text p{font-size:.95rem;line-height:1.8;color:var(--mid);margin-bottom:.9rem}
+.about-note{display:inline-block;background:var(--g4);color:var(--g1);font-size:.78rem;font-weight:600;padding:.5rem .9rem;border-radius:.5rem;margin-top:.5rem}
+.about-img{position:relative;overflow:hidden;min-height:340px}
+.about-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 6s ease}
+.about-img:hover img{transform:scale(1.06)}
+.about-img-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(61,122,106,.25),transparent)}
+
+/* PILLARS */
+.pillars-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-bottom:4rem}
+.pillar{background:#fff;border-radius:1.5rem;padding:1.8rem;border:1.5px solid var(--g4);transition:transform .3s,box-shadow .3s;cursor:default;position:relative;overflow:hidden}
+.pillar::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--g5),transparent);opacity:0;transition:opacity .3s}
+.pillar:hover{transform:translateY(-5px);box-shadow:0 16px 40px var(--shadow-g)}
+.pillar:hover::before{opacity:1}
+.p-num{font-family:'Fraunces',serif;font-size:.7rem;font-weight:700;color:var(--g3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.7rem}
+.pillar h4{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;color:var(--g1);margin-bottom:.5rem}
+.pillar p{font-size:.86rem;color:var(--mid);line-height:1.65}
+
+/* TOPIC CARDS (integration) */
+.topic-intro{margin-bottom:2rem}
+.topic-intro h3{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:900;color:var(--g1);margin-bottom:.6rem}
+.topic-intro p{font-size:.93rem;color:var(--mid);line-height:1.75;max-width:680px}
+.topics-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem}
+.topic-card{background:#fff;border-radius:1.5rem;overflow:hidden;box-shadow:0 4px 24px var(--shadow-g);transition:transform .3s,box-shadow .3s}
+.topic-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px var(--shadow-g)}
+.tc-img{position:relative;height:200px;overflow:hidden}
+.tc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 5s ease}
+.topic-card:hover .tc-img img{transform:scale(1.08)}
+.tc-badge{position:absolute;top:.8rem;left:.8rem;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);padding:.25rem .7rem;border-radius:2rem;font-size:.68rem;font-weight:700;color:var(--g1);text-transform:uppercase;letter-spacing:.08em}
+.tc-body{padding:1.5rem}
+.tc-body h5{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;color:var(--g1);margin-bottom:.5rem}
+.tc-body p{font-size:.86rem;line-height:1.65;color:var(--mid)}
+.tc-link{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--g4);font-size:.82rem;color:var(--g1);font-weight:600;line-height:1.55}
+.link-label{display:inline-block;background:var(--g4);padding:.12rem .5rem;border-radius:.3rem;font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.25rem;color:var(--g1)}
+
+/* ── BLUE ── */
+#blue{background:var(--b5);padding:0 5rem 7rem}
+.about-card-b{display:grid;grid-template-columns:1fr 1fr;border-radius:2rem;overflow:hidden;box-shadow:0 8px 48px var(--shadow-b);margin-bottom:4rem;background:#fff}
+.about-text-b h3{color:var(--b1)}
+.about-note-b{background:var(--b4);color:var(--b1)}
+.about-img-b img{transition:transform 6s ease}
+.about-img-b:hover img{transform:scale(1.06)}
+.about-img-b .about-img-overlay{background:linear-gradient(135deg,rgba(58,110,158,.25),transparent)}
+
+.principles{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-bottom:4rem}
+.pr-card{background:#fff;border-radius:1.5rem;padding:1.7rem 1.4rem;text-align:center;box-shadow:0 2px 16px var(--shadow-b);transition:transform .3s,box-shadow .3s;border-top:3px solid var(--b3)}
+.pr-card:hover{transform:translateY(-5px);box-shadow:0 12px 32px var(--shadow-b)}
+.pr-n{font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--b3);line-height:1;margin-bottom:.4rem}
+.pr-card h4{font-weight:700;font-size:.88rem;color:var(--b1);margin-bottom:.35rem}
+.pr-card p{font-size:.8rem;color:var(--mid);line-height:1.55}
+
+.topics-grid-b{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem}
+.topic-card-b{background:#fff;border-radius:1.5rem;overflow:hidden;box-shadow:0 4px 24px var(--shadow-b);transition:transform .3s,box-shadow .3s}
+.topic-card-b:hover{transform:translateY(-4px);box-shadow:0 12px 40px var(--shadow-b)}
+.tc-badge-b{background:rgba(255,255,255,.9);color:var(--b1)}
+.tc-body-b h5{color:var(--b1)}
+.tc-link-b{border-top:1px solid var(--b4);color:var(--b1)}
+.link-label-b{background:var(--b4);color:var(--b1)}
+
+/* ── INTERACTIVE EXPLORER ── */
+#explorer{background:#fff;padding:3rem 5rem 7rem}
+.explorer-wrap{display:grid;grid-template-columns:280px 1fr;gap:0;border-radius:2rem;overflow:hidden;box-shadow:0 8px 48px rgba(0,0,0,.08);min-height:520px}
+.explorer-tabs{background:var(--ink);padding:2rem 0}
+.e-tab{width:100%;padding:1.1rem 1.8rem;background:transparent;border:none;text-align:left;cursor:pointer;color:rgba(255,255,255,.55);font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;transition:all .2s;border-left:3px solid transparent;display:flex;align-items:center;gap:.8rem}
+.e-tab .tab-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);flex-shrink:0;transition:background .2s}
+.e-tab.active{color:#fff;background:rgba(255,255,255,.07);border-left-color:var(--g3)}
+.e-tab.active .tab-dot{background:var(--g3)}
+.e-tab.active-b{border-left-color:var(--b3)}
+.e-tab.active-b .tab-dot{background:var(--b3)}
+.e-tab:hover{color:rgba(255,255,255,.85)}
+.explorer-content{position:relative}
+.e-panel{display:none;height:100%;animation:fadeIn .4s ease}
+.e-panel.active{display:grid;grid-template-columns:1fr 1fr}
+@keyframes fadeIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
+.e-panel-img{position:relative;overflow:hidden}
+.e-panel-img img{width:100%;height:100%;object-fit:cover;display:block}
+.e-panel-img-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.15),transparent)}
+.e-panel-text{padding:3rem;display:flex;flex-direction:column;justify-content:center;background:#fff}
+.e-panel-text .e-curriculum-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:.25rem .7rem;border-radius:2rem;display:inline-block;margin-bottom:.8rem;width:fit-content}
+.tag-eco-g{background:var(--g4);color:var(--g1)}
+.tag-eco-b{background:var(--b4);color:var(--b1)}
+.e-panel-text h3{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:900;margin-bottom:.8rem;line-height:1.2}
+.e-panel-text .e-desc{font-size:.9rem;line-height:1.75;color:var(--mid);margin-bottom:1.2rem}
+.e-connection{background:var(--g5);border-radius:1rem;padding:1.1rem 1.2rem;font-size:.83rem;line-height:1.6;color:var(--g1)}
+.e-connection.blue{background:var(--b5);color:var(--b1)}
+.e-connection strong{display:block;font-weight:700;margin-bottom:.2rem;font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;opacity:.7}
+
+/* ── QUIZ ── */
+#quiz{background:var(--g5);padding:3rem 5rem 7rem}
+.quiz-wrap{max-width:680px;margin:0 auto;background:#fff;border-radius:2rem;padding:3rem;box-shadow:0 8px 40px var(--shadow-g)}
+.quiz-top{text-align:center;margin-bottom:2.5rem}
+.quiz-top h3{font-family:'Fraunces',serif;font-size:1.55rem;font-weight:900;color:var(--ink);margin-bottom:.4rem}
+.quiz-top p{font-size:.87rem;color:var(--soft)}
+.q-progress{height:4px;background:#eee;border-radius:2px;margin-bottom:2rem;overflow:hidden}
+.q-bar{height:100%;background:linear-gradient(90deg,var(--g2),var(--b2));border-radius:2px;transition:width .4s ease}
+.q-counter{font-size:.75rem;color:var(--soft);text-align:right;margin-bottom:.4rem;font-weight:500}
+.q-text{font-size:1.05rem;font-weight:600;color:var(--ink);line-height:1.5;margin-bottom:.35rem}
+.q-ctx{font-size:.8rem;color:var(--soft);font-style:italic;margin-bottom:1.4rem;line-height:1.5}
+.opts{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+.opt-btn{width:100%;padding:.95rem 1.4rem;border:1.5px solid #e5e5e5;border-radius:1rem;background:#fff;text-align:left;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--ink);transition:border-color .2s,background .2s,transform .15s;font-weight:500}
+.opt-btn:hover:not(:disabled){border-color:var(--g3);background:var(--g5);transform:translateX(3px)}
+.opt-btn.correct{background:var(--g5);border-color:var(--g2);color:var(--g1)}
+.opt-btn.wrong{background:#fff5f5;border-color:#e8a0a0;color:#904040}
+.opt-btn:disabled{cursor:default;transform:none}
+.q-feedback{margin-top:1.4rem;padding:1.1rem 1.4rem;border-radius:1rem;font-size:.86rem;line-height:1.65;display:none}
+.fb-correct{background:var(--g5);border-left:3px solid var(--g2);color:var(--g1)}
+.fb-wrong{background:#fff5f5;border-left:3px solid #e8a0a0;color:#804040}
+.q-next{margin-top:1.4rem;width:100%;padding:.95rem;border:none;border-radius:1rem;background:linear-gradient(135deg,var(--g2),var(--b2));color:#fff;font-family:'DM Sans',sans-serif;font-size:.97rem;font-weight:600;cursor:pointer;display:none;transition:opacity .2s}
+.q-next:hover{opacity:.88}
+.quiz-result{text-align:center;display:none;padding:2rem 0}
+.r-sym{font-family:'Fraunces',serif;font-size:3rem;font-weight:900;color:var(--g1)}
+.r-score{font-family:'Fraunces',serif;font-size:3.5rem;font-weight:900;color:var(--g1);line-height:1}
+.r-label{font-size:.93rem;color:var(--mid);margin:1rem auto 2rem;max-width:360px;line-height:1.7}
+.restart-btn{padding:.8rem 2rem;border:1.5px solid var(--g2);border-radius:2rem;background:transparent;color:var(--g1);font-family:'DM Sans',sans-serif;font-size:.92rem;font-weight:600;cursor:pointer;transition:background .2s,color .2s}
+.restart-btn:hover{background:var(--g2);color:#fff}
+
+/* ── COMPARE ── */
+#compare{background:#fff;padding:3rem 5rem 7rem}
+.compare-tbl{width:100%;border-collapse:separate;border-spacing:0;border-radius:1.5rem;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.compare-tbl th{padding:1.1rem 1.4rem;font-family:'Fraunces',serif;font-weight:700;font-size:.97rem;text-align:left}
+.th-a{background:#f4f4f4;color:var(--mid)}
+.th-g{background:var(--g3);color:var(--g1)}
+.th-b{background:var(--b3);color:var(--b1)}
+.compare-tbl td{padding:1.05rem 1.4rem;font-size:.88rem;line-height:1.65;border-bottom:1px solid #f0f0f0;vertical-align:top}
+.compare-tbl tr:last-child td{border-bottom:none}
+.compare-tbl tr:nth-child(even) td{background:#fafafa}
+.td-a{font-weight:600;color:var(--ink)}
+.td-g{color:var(--g1)}
+.td-b{color:var(--b1)}
+
+/* ── FOOTER ── */
+footer{background:var(--ink);color:rgba(255,255,255,.45);padding:3rem 5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.f-logo{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;color:#fff}
+.f-logo span{color:var(--b3)}
+footer p{font-size:.8rem}
+
+/* ── REVEAL ANIMATION ── */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:none}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr}
+  nav{padding:.9rem 1.4rem}
+  .nav-links{display:none}
+  #greening,#blue,#quiz,#compare,#explorer{padding-left:1.4rem;padding-right:1.4rem}
+  .intro-band{flex-direction:column;padding:2rem 1.4rem}
+  .pillars-grid{grid-template-columns:1fr}
+  .principles{grid-template-columns:repeat(2,1fr)}
+  .about-card,.about-card-b{grid-template-columns:1fr}
+  .topics-grid,.topics-grid-b{grid-template-columns:1fr}
+  .explorer-wrap{grid-template-columns:1fr}
+  .e-panel.active{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">Edu<span>Curriculum</span></div>
+  <ul class="nav-links">
+    <li><a href="#greening">Greening</a></li>
+    <li><a href="#blue">Blue</a></li>
+    <li><a href="#explorer">Explorer</a></li>
+    <li><a href="#quiz">Quiz</a></li>
+    <li><a href="#compare">Compare</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-half hero-left">
+    <div class="bg-img" style="background-image:url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1200&q=80')"></div>
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <span class="hero-tag tag-g">Greening Curriculum</span>
+      <h1 class="hero-title">Teaching for<br><em>Climate Action</em></h1>
+      <p class="hero-desc">An education framework that weaves sustainability into every subject, so students can see how the world works as a system — and how their choices shape it.</p>
+      <a href="#greening" class="hero-btn">Explore Greening</a>
+    </div>
+  </div>
+  <div class="hero-half hero-right">
+    <div class="bg-img" style="background-image:url('https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=1200&q=80')"></div>
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <span class="hero-tag tag-b">Blue Curriculum</span>
+      <h1 class="hero-title">Learning through<br><em>Ocean Literacy</em></h1>
+      <p class="hero-desc">A UNESCO framework connecting students to the ocean — its biology, its relationship with human life, and our shared responsibility to protect it.</p>
+      <a href="#blue" class="hero-btn">Explore Blue</a>
+    </div>
+  </div>
+  <div class="hero-divider"></div>
+  <div class="hero-center">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 3L25 14L14 25L3 14L14 3Z" stroke="#3d7a6a" stroke-width="2" fill="none"/>
+      <circle cx="14" cy="14" r="3" fill="#3a6e9e"/>
+    </svg>
+  </div>
+</section>
+
+<!-- INTRO BAND -->
+<div class="intro-band">
+  <p class="intro-text">These two curricula share one goal: raise students who understand the world they live in and care about its future. By connecting both frameworks to <strong>Ecosystems and Biodiversity</strong> from IGCSE Biology, we show that science is not something that only happens in a lab — it is happening everywhere, right now, and what students learn in class is directly connected to what is happening to the planet.</p>
+  <div class="intro-stats">
+    <div class="i-stat"><div class="n">2</div><div class="l">Frameworks</div></div>
+    <div class="i-stat"><div class="n" style="color:var(--b1)">1</div><div class="l">Biology Topic</div></div>
+    <div class="i-stat"><div class="n" style="color:var(--gold)">&#8734;</div><div class="l">Connections</div></div>
+  </div>
+</div>
+
+<!-- ══════════ GREENING ══════════ -->
+<section id="greening">
+  <div class="section-header reveal">
+    <span class="s-tag" style="background:var(--g4);color:var(--g1)">Framework 01</span>
+    <h2 style="color:var(--g1)">The Greening Curriculum</h2>
+    <p>A framework for teaching and learning that treats climate action not as a separate subject, but as a thread running through everything students study.</p>
+  </div>
+
+  <div class="about-card reveal">
+    <div class="about-text">
+      <h3>What is the Greening Curriculum?</h3>
+      <p>The Greening Curriculum is an educational approach that brings sustainability into every classroom — not just science or geography. If students only ever hear about climate change in one subject, they will only ever think about it in one context. Real understanding requires seeing how it connects to history, economics, biology, and daily life.</p>
+      <p>This framework gives teachers the tools to make those connections visible. It shifts the focus from knowing facts about the environment to actually understanding how human systems interact with natural ones, and what students can do about it.</p>
+      <p>At its core, the Greening Curriculum develops students who are not just informed but capable of thinking critically and motivated to take part in shaping the world around them.</p>
+      <span class="about-note">Aligned with UNESCO Education for Sustainable Development</span>
+    </div>
+    <div class="about-img">
+      <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80" alt="Forest ecosystem" loading="lazy">
+      <div class="about-img-overlay"></div>
+    </div>
+  </div>
+
+  <div class="pillars-grid reveal">
+    <div class="pillar"><div class="p-num">Pillar 01</div><h4>Systems Thinking</h4><p>Students learn to see how climate, food, health, and economy are parts of the same interconnected system — understanding one means understanding all of them.</p></div>
+    <div class="pillar"><div class="p-num">Pillar 02</div><h4>Action-Oriented Learning</h4><p>The goal is not just awareness. Students ask what they can actually do, whether changing habits, engaging with local government, or designing solutions to real community problems.</p></div>
+    <div class="pillar"><div class="p-num">Pillar 03</div><h4>Cross-Curricular Thinking</h4><p>Sustainability shows up in Biology, Geography, Chemistry, Economics, and more. By connecting subjects, students build a fuller understanding than any single class can offer on its own.</p></div>
+    <div class="pillar"><div class="p-num">Pillar 04</div><h4>Community Connection</h4><p>Learning does not stop at the classroom door. Students engage with local food systems, natural spaces, and communities as part of their education.</p></div>
+    <div class="pillar"><div class="p-num">Pillar 05</div><h4>Inquiry and Evidence</h4><p>Students ask questions, look at data, and draw their own conclusions. This curriculum builds the skills to think well, not just to memorise what to think.</p></div>
+    <div class="pillar"><div class="p-num">Pillar 06</div><h4>Long-Term Values</h4><p>The most important outcome is a genuine sense of responsibility. Students leave school caring about what happens to the world long after they graduate.</p></div>
+  </div>
+
+  <div class="reveal">
+    <div class="topic-intro">
+      <span class="s-tag" style="background:var(--g4);color:var(--g1)">IGCSE Biology Integration</span>
+      <h3 style="margin-top:.8rem">Ecosystems and Biodiversity through a Climate Lens</h3>
+      <p>The Greening Curriculum gives students a reason to care about what they learn in Biology. When students study ecosystems, they are not just memorising food webs — they are looking at systems that are actively changing because of human decisions.</p>
+    </div>
+    <div class="topics-grid">
+      <div class="topic-card">
+        <div class="tc-img">
+          <img src="https://images.unsplash.com/photo-1623238913973-21b9e93bd5e0?w=700&q=80" alt="Food web" loading="lazy">
+          <span class="tc-badge">Food Webs</span>
+        </div>
+        <div class="tc-body">
+          <h5>Food Webs and Energy Flow</h5>
+          <p>Energy flows through an ecosystem from producers to consumers through feeding relationships. At each trophic level, around 90% of energy is lost as heat, which is why food chains rarely have more than four or five links.</p>
+          <div class="tc-link"><span class="link-label">Greening Connection</span><br>Disrupting one species in a food web can collapse the whole chain. The Greening Curriculum asks students to consider how agricultural land use and deforestation are already doing exactly that — and what protecting these systems looks like in practice.</div>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="tc-img">
+          <img src="https://images.unsplash.com/photo-1446329813274-7c9036bd9a1f?w=700&q=80" alt="Biodiversity forest" loading="lazy">
+          <span class="tc-badge">Biodiversity</span>
+        </div>
+        <div class="tc-body">
+          <h5>Biodiversity and Ecosystem Stability</h5>
+          <p>Biodiversity refers to the variety of life in a given area, including genetic, species, and ecosystem diversity. Higher biodiversity generally makes an ecosystem more resilient and able to recover from disturbances like drought or disease.</p>
+          <div class="tc-link"><span class="link-label">Greening Connection</span><br>Biodiversity loss is one of the most urgent outcomes of climate change and habitat destruction. Students explore how protecting biodiversity is not just an environmental goal but a practical strategy for keeping food and water systems stable long term.</div>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="tc-img">
+          <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=700&q=80" alt="Carbon cycle landscape" loading="lazy">
+          <span class="tc-badge">Carbon Cycle</span>
+        </div>
+        <div class="tc-body">
+          <h5>Carbon and Nitrogen Cycles</h5>
+          <p>Carbon moves between the atmosphere, living organisms, and the soil through photosynthesis, respiration, and decomposition. The nitrogen cycle similarly depends on bacteria to convert nitrogen into forms that plants and animals can use.</p>
+          <div class="tc-link"><span class="link-label">Greening Connection</span><br>Burning fossil fuels and clearing forests push extra carbon into the atmosphere, disrupting a cycle that took millions of years to balance. Students model what happens when these cycles are interrupted and what restoring forests and wetlands actually does.</div>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="tc-img">
+          <img src="https://images.unsplash.com/photo-1611348524140-53c9a25263d6?w=700&q=80" alt="Human impact deforestation" loading="lazy">
+          <span class="tc-badge">Human Impact</span>
+        </div>
+        <div class="tc-body">
+          <h5>Human Impact on Ecosystems</h5>
+          <p>Human activities including agriculture, urbanisation, pollution, and overfishing have dramatically altered ecosystems around the world. The current rate of species extinction is estimated at 100 to 1000 times the natural background rate.</p>
+          <div class="tc-link"><span class="link-label">Greening Connection</span><br>This topic sits at the heart of the Greening Curriculum. Students examine case studies of ecosystems under pressure and are asked to evaluate what sustainable alternatives look like in practice — from rewilding to circular food systems.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ BLUE ══════════ -->
+<section id="blue">
+  <div class="section-header reveal">
+    <span class="s-tag" style="background:var(--b4);color:var(--b1)">Framework 02</span>
+    <h2 style="color:var(--b1)">The Blue Curriculum</h2>
+    <p>A UNESCO toolkit for bringing Ocean Literacy into national education systems — helping students understand why the ocean matters and what their relationship with it actually means.</p>
+  </div>
+
+  <div class="about-card-b about-card reveal">
+    <div class="about-text about-text-b">
+      <h3>What is the Blue Curriculum?</h3>
+      <p>Published by UNESCO's Intergovernmental Oceanographic Commission in 2022, the Blue Curriculum is a practical guide for educators who want to bring ocean learning into formal schooling. It was developed as part of the UN Decade of Ocean Science for Sustainable Development, running from 2021 to 2030.</p>
+      <p>The central idea is Ocean Literacy — understanding the ocean's influence on us, and our influence on the ocean. With the ocean covering 70% of Earth's surface and providing food for over one billion people, this is foundational knowledge for anyone on this planet.</p>
+      <p>The Blue Curriculum does not propose a single fixed approach. It offers a Theory of Change model that can be adapted to fit different countries, cultures, and school systems — making it genuinely global in scope and application.</p>
+      <span class="about-note about-note-b">Part of the UN Decade of Ocean Science (2021 to 2030)</span>
+    </div>
+    <div class="about-img about-img-b">
+      <img src="https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=800&q=80" alt="Ocean ecosystem" loading="lazy">
+      <div class="about-img-overlay"></div>
+    </div>
+  </div>
+
+  <div class="principles reveal">
+    <div class="pr-card"><div class="pr-n">01</div><h4>Knowledge and Awareness</h4><p>Problem-based and wonder-based learning that makes ocean science feel real and relevant to students' lives.</p></div>
+    <div class="pr-card"><div class="pr-n">02</div><h4>Nature-Connectedness</h4><p>Time spent learning in and around nature builds genuine emotional connection to the marine environment — something facts alone cannot produce.</p></div>
+    <div class="pr-card"><div class="pr-n">03</div><h4>Values and Attitudes</h4><p>Developed through conversation with peers and teachers, guiding students toward choices that protect marine life and influence those around them.</p></div>
+    <div class="pr-card"><div class="pr-n">04</div><h4>Competences</h4><p>The end goal is students who can actually do something — with the skills and confidence to take meaningful action in their communities.</p></div>
+  </div>
+
+  <div class="reveal">
+    <div class="topic-intro">
+      <span class="s-tag" style="background:var(--b4);color:var(--b1)">IGCSE Biology Integration</span>
+      <h3 style="margin-top:.8rem;color:var(--b1)">Ecosystems and Biodiversity through an Ocean Lens</h3>
+      <p>The Blue Curriculum brings ocean ecosystems to the centre of science education. When Biology students study biodiversity and ecological relationships, the ocean offers some of the most complex and fascinating examples on Earth — and some of the most threatened ones.</p>
+    </div>
+    <div class="topics-grid-b">
+      <div class="topic-card-b topic-card">
+        <div class="tc-img">
+          <img src="https://images.unsplash.com/photo-1534766555764-ce878a5e3a2b?w=700&q=80" alt="Marine food web fish" loading="lazy">
+          <span class="tc-badge tc-badge-b">Marine Food Webs</span>
+        </div>
+        <div class="tc-body tc-body-b">
+          <h5>Marine Food Webs</h5>
+          <p>Ocean food webs begin with phytoplankton — microscopic algae that perform about half of all photosynthesis on Earth. These support zooplankton, small fish, larger predators, and eventually everything from dolphins to seabirds.</p>
+          <div class="tc-link tc-link-b"><span class="link-label link-label-b">Blue Connection</span><br>Ocean warming and acidification are shifting the distribution of phytoplankton, which affects every organism above it in the food web. Students trace how a change at the base ripples outward and what that means for fishing communities worldwide.</div>
+        </div>
+      </div>
+      <div class="topic-card-b topic-card">
+        <div class="tc-img">
+          <img src="https://images.unsplash.com/photo-1546026423-cc4642628d2b?w=700&q=80" alt="Coral reef" loading="lazy">
+          <span class="tc-badge tc-badge-b">Coral Reefs</span>
+        </div>
+        <div class="tc-body tc-body-b">
+          <h5>Coral Reef Ecosystems</h5>
+          <p>Coral reefs cover less than 1% of the ocean floor but support around 25% of all marine species. They are built on the mutualistic relationship between coral polyps and photosynthetic algae called zooxanthellae.</p>
+          <div class="tc-link tc-link-b"><span class="link-label link-label-b">Blue Connection</span><br>When ocean temperatures rise, corals expel their algae and bleach — losing both colour and the ability to survive. This is a direct, visible consequence of climate change that students can study using real monitoring data from reef observation networks worldwide.</div>
+        </div>
+      </div>
+      <div class="topic-card-b topic-card">
+        <div class="tc-img">
+          <img src="https://images.unsplash.com/photo-1564063855168-f4bc8e0d10e1?w=700&q=80" alt="Sea otter kelp forest" loading="lazy">
+          <span class="tc-badge tc-badge-b">Keystone Species</span>
+        </div>
+        <div class="tc-body tc-body-b">
+          <h5>Keystone Species and Biodiversity</h5>
+          <p>Some species have an outsized effect on their ecosystem. Sea otters control sea urchin populations, protecting kelp forests. Remove the otter, and the entire habitat can collapse — these are called keystone species because everything else depends on them.</p>
+          <div class="tc-link tc-link-b"><span class="link-label link-label-b">Blue Connection</span><br>The Blue Curriculum uses examples like this to show that biodiversity is about understanding relationships, not just counting species. Students explore how overfishing removes keystones, and what marine protected areas can do to restore balance over time.</div>
+        </div>
+      </div>
+      <div class="topic-card-b topic-card">
+        <div class="tc-img">
+          <img src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=700&q=80" alt="Ocean phytoplankton blue" loading="lazy">
+          <span class="tc-badge tc-badge-b">Nutrient Cycling</span>
+        </div>
+        <div class="tc-body tc-body-b">
+          <h5>Nutrient Cycling in the Ocean</h5>
+          <p>The biological pump is the process by which carbon is fixed by surface phytoplankton and sinks to the deep ocean when organisms die. It moves enormous amounts of carbon out of the atmosphere and stores it for centuries.</p>
+          <div class="tc-link tc-link-b"><span class="link-label link-label-b">Blue Connection</span><br>If ocean warming disrupts phytoplankton, this pump weakens and more carbon stays in the atmosphere. Students connect the carbon cycle from Biology with the ocean's role as a carbon sink — and see why ocean health is inseparable from addressing climate change.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ INTERACTIVE EXPLORER ══════════ -->
+<section id="explorer">
+  <div class="section-header reveal">
+    <span class="s-tag" style="background:#f0e8f8;color:#6040a0">Interactive</span>
+    <h2>Topic Explorer</h2>
+    <p>Click through each topic to see how Ecosystems and Biodiversity looks from both the Greening and Blue curriculum perspective.</p>
+  </div>
+
+  <div class="explorer-wrap reveal">
+    <div class="explorer-tabs">
+      <button class="e-tab active" onclick="showPanel('fw')"><span class="tab-dot"></span>Food Webs</button>
+      <button class="e-tab" onclick="showPanel('bd')"><span class="tab-dot"></span>Biodiversity</button>
+      <button class="e-tab" onclick="showPanel('cr')"><span class="tab-dot"></span>Coral Reefs</button>
+      <button class="e-tab" onclick="showPanel('cc')"><span class="tab-dot"></span>Carbon Cycle</button>
+      <button class="e-tab" onclick="showPanel('ks')"><span class="tab-dot"></span>Keystone Species</button>
+      <button class="e-tab" onclick="showPanel('hi')"><span class="tab-dot"></span>Human Impact</button>
+    </div>
+    <div class="explorer-content">
+
+      <div class="e-panel active" id="panel-fw">
+        <div class="e-panel-img"><img src="https://images.unsplash.com/photo-1623238913973-21b9e93bd5e0?w=700&q=80" alt="Food web" loading="lazy"><div class="e-panel-img-overlay"></div></div>
+        <div class="e-panel-text">
+          <span class="e-curriculum-tag tag-eco-g">Both Curricula</span>
+          <h3>Food Webs and Energy Flow</h3>
+          <p class="e-desc">Energy flows from producers to consumers across trophic levels. At each step, about 90% is lost as heat — which is why food chains stay short and why one disruption can cascade through an entire ecosystem.</p>
+          <div class="e-connection"><strong>Greening Curriculum</strong>Agricultural expansion and deforestation remove producers from terrestrial food webs, triggering chain reactions that affect entire ecosystems and the communities that depend on them.</div>
+          <div class="e-connection blue" style="margin-top:.8rem"><strong>Blue Curriculum</strong>In the ocean, phytoplankton loss from warming waters disrupts marine food webs from the base — affecting fish stocks, seabird populations, and coastal food security.</div>
+        </div>
+      </div>
+
+      <div class="e-panel" id="panel-bd">
+        <div class="e-panel-img"><img src="https://images.unsplash.com/photo-1446329813274-7c9036bd9a1f?w=700&q=80" alt="Biodiversity" loading="lazy"><div class="e-panel-img-overlay"></div></div>
+        <div class="e-panel-text">
+          <span class="e-curriculum-tag tag-eco-g">Both Curricula</span>
+          <h3>Biodiversity and Ecosystem Stability</h3>
+          <p class="e-desc">Biodiversity — genetic, species, and ecosystem variety — determines how resilient an ecosystem is. Higher biodiversity means more pathways for energy and nutrients, and more ability to recover from shocks.</p>
+          <div class="e-connection"><strong>Greening Curriculum</strong>On land, habitat loss and monoculture farming are the leading drivers of biodiversity decline. Students evaluate how sustainable land use can protect species and ecosystem services simultaneously.</div>
+          <div class="e-connection blue" style="margin-top:.8rem"><strong>Blue Curriculum</strong>Marine biodiversity is equally threatened. Coral bleaching, ocean acidification, and overfishing are removing species faster than ecosystems can adapt — with consequences for billions of people.</div>
+        </div>
+      </div>
+
+      <div class="e-panel" id="panel-cr">
+        <div class="e-panel-img"><img src="https://images.unsplash.com/photo-1546026423-cc4642628d2b?w=700&q=80" alt="Coral reef" loading="lazy"><div class="e-panel-img-overlay"></div></div>
+        <div class="e-panel-text">
+          <span class="e-curriculum-tag tag-eco-b">Blue Curriculum Focus</span>
+          <h3>Coral Reef Ecosystems</h3>
+          <p class="e-desc">Covering less than 1% of the seafloor yet supporting 25% of all marine species, coral reefs are the ocean's most biodiverse ecosystems. Their survival depends on the mutualistic bond between coral polyps and zooxanthellae algae.</p>
+          <div class="e-connection blue"><strong>Blue Curriculum</strong>Reef bleaching is one of the most visible signs of ocean warming. Students study live monitoring data, learn the biology behind bleaching events, and explore restoration efforts like coral gardening and heat-resistant coral breeding.</div>
+        </div>
+      </div>
+
+      <div class="e-panel" id="panel-cc">
+        <div class="e-panel-img"><img src="https://images.unsplash.com/photo-1501854140801-53c9a25263d6?w=700&q=80" alt="Carbon cycle" loading="lazy"><div class="e-panel-img-overlay"></div></div>
+        <div class="e-panel-text">
+          <span class="e-curriculum-tag tag-eco-g">Both Curricula</span>
+          <h3>Carbon and Nitrogen Cycles</h3>
+          <p class="e-desc">Carbon and nitrogen cycle through the atmosphere, organisms, and soil via photosynthesis, respiration, decomposition, and microbial activity. These cycles took millions of years to stabilise — and human activity is disrupting both within decades.</p>
+          <div class="e-connection"><strong>Greening Curriculum</strong>Burning fossil fuels and deforestation add carbon to the atmosphere while removing natural carbon stores. Students model tipping points and examine what large-scale reforestation and soil restoration actually achieve.</div>
+          <div class="e-connection blue" style="margin-top:.8rem"><strong>Blue Curriculum</strong>The ocean's biological pump sequesters carbon for centuries. As warming weakens this pump, the ocean becomes less effective as a carbon sink — directly accelerating climate change.</div>
+        </div>
+      </div>
+
+      <div class="e-panel" id="panel-ks">
+        <div class="e-panel-img"><img src="https://images.unsplash.com/photo-1564063855168-f4bc8e0d10e1?w=700&q=80" alt="Sea otter" loading="lazy"><div class="e-panel-img-overlay"></div></div>
+        <div class="e-panel-text">
+          <span class="e-curriculum-tag tag-eco-b">Blue Curriculum Focus</span>
+          <h3>Keystone Species</h3>
+          <p class="e-desc">Keystone species have a disproportionately large effect on their ecosystem. Sea otters keep sea urchin populations in check — protecting kelp forests that shelter thousands of other species. Remove the otter and the habitat collapses.</p>
+          <div class="e-connection blue"><strong>Blue Curriculum</strong>Students use keystone species as a lens to understand why biodiversity is relational, not just numerical. They examine how targeted conservation of a single species can stabilise an entire marine ecosystem and restore fisheries over time.</div>
+        </div>
+      </div>
+
+      <div class="e-panel" id="panel-hi">
+        <div class="e-panel-img"><img src="https://images.unsplash.com/photo-1611348524140-53c9a25263d6?w=700&q=80" alt="Human impact" loading="lazy"><div class="e-panel-img-overlay"></div></div>
+        <div class="e-panel-text">
+          <span class="e-curriculum-tag tag-eco-g">Both Curricula</span>
+          <h3>Human Impact on Ecosystems</h3>
+          <p class="e-desc">Agriculture, urbanisation, pollution, and overfishing have altered ecosystems faster than at any point in human history. The current species extinction rate is 100 to 1000 times the natural background rate.</p>
+          <div class="e-connection"><strong>Greening Curriculum</strong>Students investigate how everyday decisions — what we eat, how we travel, what we buy — aggregate into global-scale ecosystem change, and what shifting those systems looks like from a policy and community level.</div>
+          <div class="e-connection blue" style="margin-top:.8rem"><strong>Blue Curriculum</strong>Ocean pollution, plastic accumulation, and industrial fishing are examined as interconnected problems. Students evaluate marine protected areas, fishing quotas, and international agreements as real tools for ecosystem recovery.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ QUIZ ══════════ -->
+<section id="quiz">
+  <div class="section-header reveal">
+    <span class="s-tag" style="background:#f0e8f8;color:#6040a0">Test Your Knowledge</span>
+    <h2>Ecosystems Quiz</h2>
+    <p>Five questions connecting IGCSE Biology concepts to the ideas behind both curricula. See how well you can link the science to the bigger picture.</p>
+  </div>
+  <div class="quiz-wrap reveal">
+    <div id="quiz-main">
+      <div class="quiz-top">
+        <h3>Ecosystems and Biodiversity</h3>
+        <p>5 questions · IGCSE Biology connected to real-world environmental themes</p>
+      </div>
+      <div class="q-progress"><div class="q-bar" id="q-bar" style="width:0%"></div></div>
+      <p class="q-counter" id="q-counter">Question 1 of 5</p>
+      <p class="q-text" id="q-text"></p>
+      <p class="q-ctx" id="q-ctx"></p>
+      <ul class="opts" id="opts"></ul>
+      <div class="q-feedback" id="q-feedback"></div>
+      <button class="q-next" id="q-next" onclick="nextQ()">Next Question</button>
+    </div>
+    <div class="quiz-result" id="quiz-result">
+      <div class="r-sym" id="r-sym">&#9670;</div>
+      <div class="r-score" id="r-score">0/5</div>
+      <p class="r-label" id="r-label"></p>
+      <button class="restart-btn" onclick="restartQuiz()">Try Again</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ COMPARE ══════════ -->
+<section id="compare">
+  <div class="section-header reveal">
+    <span class="s-tag" style="background:#f0e8f8;color:#6040a0">Side by Side</span>
+    <h2>Curriculum Comparison</h2>
+    <p>Both curricula care about the same world but approach it from different angles. Here is how they line up when it comes to Ecosystems and Biodiversity.</p>
+  </div>
+  <table class="compare-tbl reveal">
+    <thead>
+      <tr>
+        <th class="th-a">Aspect</th>
+        <th class="th-g">Greening Curriculum</th>
+        <th class="th-b">Blue Curriculum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="td-a">Core Focus</td><td class="td-g">Climate action and sustainability woven across all school subjects and grade levels</td><td class="td-b">Ocean literacy and understanding the two-way relationship between humans and the sea</td></tr>
+      <tr><td class="td-a">Publisher</td><td class="td-g">Education and sustainability organisations focused on school curriculum reform</td><td class="td-b">IOC-UNESCO, published in 2022 with support from the AXA Group</td></tr>
+      <tr><td class="td-a">Ecosystem Focus</td><td class="td-g">Terrestrial and freshwater systems, agricultural land use, deforestation, urban ecology</td><td class="td-b">Marine ecosystems, coral reefs, ocean food webs, biological carbon pump</td></tr>
+      <tr><td class="td-a">IGCSE Biology Link</td><td class="td-g">Food webs and energy flow, carbon and nitrogen cycles, human impact on biodiversity</td><td class="td-b">Marine food webs, keystone species, coral reef biology, nutrient cycling in the ocean</td></tr>
+      <tr><td class="td-a">Teaching Approach</td><td class="td-g">Systems thinking, cross-curricular connections, action-oriented and inquiry-based</td><td class="td-b">Wonder-based and problem-based learning, nature connection, multi-disciplinary fieldwork</td></tr>
+      <tr><td class="td-a">Geographic Scale</td><td class="td-g">Starts local — school gardens, community food systems — then expands to global issues</td><td class="td-b">Genuinely global from the start, since the ocean connects every coastline and continent</td></tr>
+      <tr><td class="td-a">Student Outcome</td><td class="td-g">A student who sees environmental issues as interconnected and feels equipped to respond</td><td class="td-b">A student who understands the ocean as part of their world and takes responsibility for it</td></tr>
+      <tr><td class="td-a">Relevant SDGs</td><td class="td-g">SDG 13 Climate Action, SDG 15 Life on Land, SDG 12 Responsible Consumption</td><td class="td-b">SDG 14 Life Below Water, SDG 4 Quality Education, SDG 13 Climate Action</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">Edu<span>Curriculum</span></div>
+  <p>Greening Curriculum and Blue Curriculum connected to IGCSE Biology — Ecosystems and Biodiversity</p>
+  <p style="font-size:.75rem">Sources: IOC-UNESCO (2022) · Greening Curriculum Guidance · Unsplash (images)</p>
+</footer>
+
+<script>
+/* ── NAV SCROLL ── */
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40)
+})
+
+/* ── REVEAL ON SCROLL ── */
+const reveals=document.querySelectorAll('.reveal')
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}})
+},{threshold:.12})
+reveals.forEach(r=>ro.observe(r))
+
+/* ── EXPLORER ── */
+function showPanel(id){
+  document.querySelectorAll('.e-panel').forEach(p=>p.classList.remove('active'))
+  document.querySelectorAll('.e-tab').forEach(t=>{t.classList.remove('active');t.classList.remove('active-b')})
+  document.getElementById('panel-'+id).classList.add('active')
+  const tabs=document.querySelectorAll('.e-tab')
+  const order=['fw','bd','cr','cc','ks','hi']
+  const idx=order.indexOf(id)
+  const blueIds=['cr','ks']
+  tabs[idx].classList.add(blueIds.includes(id)?'active-b':'active')
+}
+
+/* ── QUIZ ── */
+const qs=[
+  {
+    text:"Which organisms form the base of almost all food webs, including marine ones?",
+    ctx:"Greening note: Disrupting this level has consequences that travel all the way up the chain.",
+    opts:["Apex predators like sharks and eagles","Producers such as plants and phytoplankton","Decomposers like fungi and bacteria","Primary consumers like insects and zooplankton"],
+    ans:1,
+    fb:"Correct. Producers — plants on land and phytoplankton in the ocean — convert sunlight into energy through photosynthesis. All other life depends on them. In the ocean, phytoplankton also produce around half of the oxygen in Earth's atmosphere."
+  },
+  {
+    text:"What does the term 'keystone species' mean?",
+    ctx:"Blue Curriculum note: Sea otters and sharks are classic examples in marine ecosystems.",
+    opts:["The most numerous species in an ecosystem","A species that only lives at the top of the food chain","A species whose removal would cause major changes to the whole ecosystem","The first species to appear in a newly formed habitat"],
+    ans:2,
+    fb:"Correct. A keystone species has a disproportionately large effect on its ecosystem compared to its population size. Sea otters keep sea urchin populations in check — without them, urchins overgraze kelp forests and remove a habitat that hundreds of other species depend on."
+  },
+  {
+    text:"What is coral bleaching, and what causes it?",
+    ctx:"Blue Curriculum note: Bleaching events are now monitored in real time by marine scientists worldwide.",
+    opts:["Coral turning white because it grows in low-light conditions","Coral expelling its symbiotic algae due to environmental stress, particularly ocean warming","A natural seasonal cycle where coral goes dormant","Coral absorbing too much sunlight and losing its pigment"],
+    ans:1,
+    fb:"Correct. Coral polyps depend on photosynthetic algae called zooxanthellae for energy and colour. When water temperatures rise, corals expel these algae and turn white. Without them, the coral is alive but starving. Warming oceans caused by climate change are the main driver of mass bleaching events."
+  },
+  {
+    text:"Why does energy decrease at each level of a food chain?",
+    ctx:"Greening note: This is why plant-based food systems are generally more energy-efficient.",
+    opts:["Organisms at higher levels eat less frequently","Energy is added to the system at each level","Around 90% of energy is lost as heat at each trophic level","Sunlight cannot reach organisms at higher levels"],
+    ans:2,
+    fb:"Correct. At each trophic level, most energy is used for the organism's own metabolism and released as heat. Only about 10% passes to the next level. This is why food chains rarely exceed four or five links — and why producing food from animals requires far more land and energy than producing it from plants."
+  },
+  {
+    text:"What role does the ocean play in the global carbon cycle?",
+    ctx:"Blue Curriculum note: Protecting ocean health is directly connected to managing climate change.",
+    opts:["The ocean releases carbon dioxide and has no role in carbon storage","The ocean absorbs carbon dioxide and stores carbon through the biological pump","The ocean only affects the carbon cycle through volcanic activity on the seafloor","The ocean plays a minor role compared to forests"],
+    ans:1,
+    fb:"Correct. The ocean absorbs around 30% of the carbon dioxide released by human activities. The biological pump — phytoplankton fixing carbon, dying, and sinking to the deep ocean — stores that carbon for centuries. If ocean warming disrupts phytoplankton, this pump weakens and more carbon stays in the atmosphere."
+  }
+]
+let cur=0,score=0,answered=false
+function loadQ(){
+  const q=qs[cur]
+  document.getElementById('q-text').textContent='Q'+(cur+1)+'. '+q.text
+  document.getElementById('q-ctx').textContent=q.ctx
+  document.getElementById('q-counter').textContent='Question '+(cur+1)+' of '+qs.length
+  document.getElementById('q-bar').style.width=((cur/qs.length)*100)+'%'
+  const ol=document.getElementById('opts');ol.innerHTML=''
+  q.opts.forEach((o,i)=>{
+    const li=document.createElement('li')
+    const btn=document.createElement('button')
+    btn.className='opt-btn';btn.textContent=o
+    btn.onclick=()=>pick(i)
+    li.appendChild(btn);ol.appendChild(li)
+  })
+  document.getElementById('q-feedback').style.display='none'
+  document.getElementById('q-next').style.display='none'
+  answered=false
+}
+function pick(idx){
+  if(answered)return;answered=true
+  const q=qs[cur]
+  const btns=document.querySelectorAll('.opt-btn')
+  btns.forEach(b=>b.disabled=true)
+  const fb=document.getElementById('q-feedback')
+  if(idx===q.ans){score++;btns[idx].classList.add('correct');fb.className='q-feedback fb-correct'}
+  else{btns[idx].classList.add('wrong');btns[q.ans].classList.add('correct');fb.className='q-feedback fb-wrong'}
+  fb.textContent=q.fb;fb.style.display='block'
+  const nb=document.getElementById('q-next');nb.style.display='block'
+  nb.textContent=cur<qs.length-1?'Next Question':'See Results'
+}
+function nextQ(){cur++;cur>=qs.length?showResult():loadQ()}
+function showResult(){
+  document.getElementById('quiz-main').style.display='none'
+  const r=document.getElementById('quiz-result');r.style.display='block'
+  document.getElementById('r-score').textContent=score+'/5'
+  const p=score/qs.length
+  let label
+  if(p===1)label='Perfect score. You clearly understand how ecosystems work and why they matter.'
+  else if(p>=.8)label='Really strong result. You have a solid grasp of the key concepts.'
+  else if(p>=.6)label='A good start. Go back through the sections above and the connections will become clearer.'
+  else label='Keep going. These ideas take time to absorb. Revisit the content and try again.'
+  document.getElementById('r-label').textContent=label
+  document.getElementById('q-bar').style.width='100%'
+}
+function restartQuiz(){
+  cur=0;score=0
+  document.getElementById('quiz-main').style.display='block'
+  document.getElementById('quiz-result').style.display='none'
+  loadQ()
+}
+loadQ()
+</script>
+</body>
+</html>
